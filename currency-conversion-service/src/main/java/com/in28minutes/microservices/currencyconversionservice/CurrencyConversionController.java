@@ -1,5 +1,6 @@
 package com.in28minutes.microservices.currencyconversionservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,8 +11,32 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 public class CurrencyConversionController {
+
+    private final CurrencyExchangeProxy currencyExchangeProxy;
+
+    public CurrencyConversionController(CurrencyExchangeProxy currencyExchangeProxy) {
+        this.currencyExchangeProxy = currencyExchangeProxy;
+    }
+
+
+    @GetMapping("/currency-converter-feign/from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversion convertCurrencyFeign(@PathVariable("from") String from,
+                                              @PathVariable("to") String to,
+                                              @PathVariable("quantity") BigDecimal quantity) {
+
+        log.info("Using feign...");
+        CurrencyConversion lookup = currencyExchangeProxy.retrieveExchangeValue(from,to);
+
+        return lookup.toBuilder()
+                .quantity(quantity)
+                .totalCalculatedAmount(quantity.multiply(lookup.getConversionMultiple()))
+                .build();
+
+    }
+
     @GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversion convertCurrency(@PathVariable("from") String from,
                                               @PathVariable("to") String to,
