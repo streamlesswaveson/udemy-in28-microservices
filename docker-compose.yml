@@ -1,0 +1,15 @@
+version: '3'
+services: 
+  rabbitmq: 
+    image: rabbitmq:latest 
+    ports: 
+      - "5672:5672"
+  zipkin:
+    image: openzipkin/zipkin:latest
+    restart: on-failure
+    links:
+      - rabbitmq
+    ports: 
+      - "9411:9411"
+    environment:
+      - RABBIT_URI=amqp://rabbitmq:5672
