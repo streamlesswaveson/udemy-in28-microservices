@@ -1,12 +1,12 @@
 package com.in28minutes.microservices.currencyexchangeservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-
+@Slf4j
 @RestController
 public class CurrencyExchangeController {
 
@@ -24,6 +24,7 @@ public class CurrencyExchangeController {
 
         ExchangeValue byFromAndTo = exchangeValueRepository.findByFromAndTo(from, to);
         byFromAndTo.setPort(port);
+        log.info("{}", byFromAndTo);
         return byFromAndTo;
 //        return ExchangeValue.builder()
 //                .id(1000l)

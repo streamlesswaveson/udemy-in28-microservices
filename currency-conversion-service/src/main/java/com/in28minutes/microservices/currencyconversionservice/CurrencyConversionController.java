@@ -30,6 +30,8 @@ public class CurrencyConversionController {
         log.info("Using feign...");
         CurrencyConversion lookup = currencyExchangeProxy.retrieveExchangeValue(from,to);
 
+        log.info("{}", lookup);
+
         return lookup.toBuilder()
                 .quantity(quantity)
                 .totalCalculatedAmount(quantity.multiply(lookup.getConversionMultiple()))
