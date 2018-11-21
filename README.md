@@ -1,3 +1,14 @@
+# Config Server 
+* enable 
+```
+management.endpoints.web.exposure.include=*
+```
+
+* request server, through actuator, to pick up latest values:
+```
+ curl -XPOST http://localhost:8080/actuator/refresh
+```
+
 # Eureka naming server
 
 http://localhost:8761/
