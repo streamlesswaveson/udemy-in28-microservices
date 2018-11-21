@@ -9,6 +9,19 @@ management.endpoints.web.exposure.include=*
  curl -XPOST http://localhost:8080/actuator/refresh
 ```
 
+## Spring Cloud Bus 
+* This is broken with the current version of spring boot used in this project
+* See https://github.com/spring-cloud/spring-cloud-bus/issues/137 
+
+Prerequisites
+* start up rabbit mq (docker-compose up)
+
+Execution
+``` 
+curl -XPOST http://localhost:8080/actuator/bus-refresh
+
+```
+
 # Eureka naming server
 
 http://localhost:8761/
